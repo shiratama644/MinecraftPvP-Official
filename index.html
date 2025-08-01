@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bedwars Pro League - 日本初のMinecraft Bedwars eスポーツリーグ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: radial-gradient(circle at center, rgba(79, 172, 254, 0.1) 0%, transparent 70%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.1" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(10px, 10px); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #4facfe, #00f2fe, #ff6b6b);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { filter: drop-shadow(0 0 20px rgba(79, 172, 254, 0.5)); }
+            100% { filter: drop-shadow(0 0 40px rgba(79, 172, 254, 0.8)); }
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 0.9;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #ff6b6b, #4facfe);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out 1s both;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+        }
+
+        .section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(0, 242, 254, 0.05));
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(79, 172, 254, 0.2);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(79, 172, 254, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(79, 172, 254, 0.5);
+            box-shadow: 0 20px 40px rgba(79, 172, 254, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #4facfe;
+        }
+
+        .tournament-info {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(79, 172, 254, 0.1));
+            padding: 60px 40px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .prize-pool {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #ff6b6b;
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+        }
+
+        .registration-form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4facfe;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 2px rgba(79, 172, 254, 0.2);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3);
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            padding: 50px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .social-link {
+            display: inline-block;
+            padding: 15px;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            line-height: 20px;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px) rotate(360deg);
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #4facfe;
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .section h2 {
+                font-size: 2rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-particles" id="particles"></div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="logo">BEDWARS PRO LEAGUE</h1>
+            <p class="tagline">日本初のMinecraft Bedwars公式eスポーツリーグ</p>
+            <a href="#registration" class="cta-button">今すぐ参加登録</a>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>なぜBedwars Pro League？</h2>
+        <div class="features">
+            <div class="feature-card">
+                <span class="feature-icon">🏆</span>
+                <h3>プロレベルの競技環境</h3>
+                <p>厳格なルールと公正な審判システムで、真の実力を競い合う本格的なeスポーツ環境を提供します。</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🎮</span>
+                <h3>戦略性の高いゲームプレイ</h3>
+                <p>Bedwarsの奥深い戦略性とチームワークを重視した競技形式で、観戦者も楽しめるスペクタクルを演出します。</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🌟</span>
+                <h3>プロ選手への道</h3>
+                <p>優秀な成績を収めた選手には、スポンサー契約やプロチーム加入の機会を提供します。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="tournament-info">
+            <h2>第1回トーナメント開催決定！</h2>
+            <p>2025年9月開催予定</p>
+            <div class="prize-pool">総賞金 ¥500,000</div>
+            <p>参加チーム数: 最大32チーム（4人1組）<br>
+            予選・本戦を通じて頂点を決定します</p>
+        </div>
+    </section>
+
+    <section class="section" id="registration">
+        <h2>チーム登録</h2>
+        <div class="registration-form">
+            <form id="teamRegistration">
+                <div class="form-group">
+                    <label for="teamName">チーム名</label>
+                    <input type="text" id="teamName" name="teamName" placeholder="チーム名を入力してください" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="captainName">キャプテン名</label>
+                    <input type="text" id="captainName" name="captainName" placeholder="キャプテンのお名前" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="captainMinecraftID">キャプテンのMinecraft ID</label>
+                    <input type="text" id="captainMinecraftID" name="captainMinecraftID" placeholder="Minecraft ID" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">連絡先メールアドレス</label>
+                    <input type="email" id="email" name="email" placeholder="example@email.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="experience">Bedwars経験レベル</label>
+                    <select id="experience" name="experience" required>
+                        <option value="">選択してください</option>
+                        <option value="beginner">初心者（プレイ時間100時間未満）</option>
+                        <option value="intermediate">中級者（プレイ時間100-500時間）</option>
+                        <option value="advanced">上級者（プレイ時間500時間以上）</option>
+                        <option value="expert">エキスパート（大会出場経験あり）</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="members">チームメンバー情報</label>
+                    <textarea id="members" name="members" rows="4" placeholder="残り3名のメンバーのMinecraft IDと簡単な経歴を記載してください"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">チーム登録申請</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="#" class="social-link">L</a>
+            <a href="#" class="social-link">T</a>
+            <a href="#" class="social-link">D</a>
+            <a href="#" class="social-link">Y</a>
+        </div>
+        <p>&copy; 2025 Bedwars Pro League. All rights reserved.</p>
+        <p>お問い合わせ: info@bedwarspro.jp</p>
+    </footer>
+
+    <script>
+        // パーティクルアニメーション
+        function createParticles() {
+            const particleContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particleContainer.appendChild(particle);
+            }
+        }
+
+        // スムーススクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // フォーム送信処理
+        document.getElementById('teamRegistration').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // フォームデータを取得
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // 簡単なバリデーション
+            if (!data.teamName || !data.captainName || !data.captainMinecraftID || !data.email) {
+                alert('必須項目をすべて入力してください。');
+                return;
+            }
+            
+            // 成功メッセージ
+            alert('チーム登録申請を受け付けました！\n確認メールを送信いたします。\n詳細については後日LINEオープンチャットでご連絡いたします。');
+            
+            // フォームをリセット
+            this.reset();
+        });
+
+        // ページ読み込み時の初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // スクロールアニメーション
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.feature-card, .tournament-info, .registration-form').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(50px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+        });
+
+        // マウス追従エフェクト
+        document.addEventListener('mousemove', function(e) {
+            const cursor = document.querySelector('.hero::before');
+            if (cursor && window.scrollY < window.innerHeight) {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                document.documentElement.style.setProperty('--mouse-x', x);
+                document.documentElement.style.setProperty('--mouse-y', y);
+            }
+        });
+    </script>
+</body>
+</html>
